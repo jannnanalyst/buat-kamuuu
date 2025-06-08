@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bukan confess kok</title>
+    <style>
+        /* Reset default margins and ensure full height */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Center everything and set a soft background */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5e0e9, #e0f5f8);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Style the container for the message */
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            width: 100%;
+            position: relative;
+            margin: 10px;
+        }
+
+        /* Style the heading */
+        h1 {
+            font-size: clamp(1.8rem, 6vw, 2.2rem);
+            color: #e91e63;
+            margin-bottom: 15px;
+        }
+
+        /* Style the initial message */
+        #initial-message {
+            font-size: clamp(1rem, 4vw, 1.1rem);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        /* Style the confession message (hidden by default) */
+        #confession {
+            font-size: clamp(1.1rem, 4vw, 1.2rem);
+            font-style: italic;
+            color: #d81b60;
+            display: none;
+            margin-top: 15px;
+            line-height: 1.6;
+        }
+
+        /* Style the response buttons (hidden by default) */
+        #response-buttons {
+            display: none;
+            margin-top: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* Style the response message (hidden by default) */
+        #response-message {
+            display: none;
+            font-size: clamp(1rem, 4vw, 1.1rem);
+            margin-top: 15px;
+            color: #e91e63;
+            line-height: 1.5;
+        }
+
+        /* Style the buttons */
+        button {
+            padding: 10px 20px;
+            font-size: clamp(0.9rem, 3.5vw, 1rem);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            touch-action: manipulation;
+            min-width: 100px;
+        }
+
+        #reveal-button {
+            background-color: #ff6f91;
+        }
+
+        #reveal-button:hover {
+            background-color: #e91e63;
+        }
+
+        #yes-button {
+            background-color: #4caf50;
+        }
+
+        #yes-button:hover {
+            background-color: #45a049;
+        }
+
+        #no-button {
+            background-color: #f44336;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        #no-button:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Add a subtle animation for the heart */
+        .heart {
+            font-size: clamp(1.2rem, 4vw, 1.3rem);
+            color: #e91e63;
+            animation: pulse 1.5s infinite;
+            display: inline-block;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Media query for smaller screens */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+                margin: 5px;
+            }
+
+            h1 {
+                font-size: clamp(1.5rem, 5vw, 1.8rem);
+            }
+
+            button {
+                padding: 8px 15px;
+                min-width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <h1>a-anu 👉👈</h1>
+        <p id="initial-message">
+            Aku pengen nyampein sesuatu ke kamu...
+            <br>
+            Tapi gak bisa sampein langsung, jadi pake ginian aja <span class="heart">😅</span>
+        </p>
+        <button id="reveal-button" onclick="revealConfession()">Apaan sih?</button>
+        <p id="confession">
+            Aku suka sama kamu. Ya itu aja sihh, semoga ini gak buat kamu ilpil ya, cuma pengen jujur aja dan maap kalo udah buat kamu nunggu lama, btw full indo (gak pake bahasa daerah) gini biar gak cringe aja
+            <br><br>
+            Mau gak kita jadian?
+        </p>
+        <div id="response-buttons">
+            <button id="yes-button" onclick="showResponse('yes')">iya iya mau mau</button>
+            <button id="no-button" onclick="moveNoButton()">aku gak mauuu</button>
+        </div>
+        <p id="response-message"></p>
+    </div>
+
+    <script>
+        // Counter for "No" button clicks
+        let noButtonClicks = 0;
+
+        // Array of playful messages for each "No" click
+        const noMessages = [
+            "Haha, pasti salah tap kan 😅",
+            "Eh, serius nihh 😿",
+            "Iyain dong, pls 🙏",
+            "pls🙏 pls🙏 pls🙏",
+            "Yakin banget 'Tidak'? Pikir dulu! 😏"
+        ];
+
+        // Function to reveal the confession and show response buttons
+        function revealConfession() {
+            document.getElementById('initial-message').style.display = 'none';
+            document.getElementById('confession').style.display = 'block';
+            document.getElementById('reveal-button').style.display = 'none';
+            document.getElementById('response-buttons').style.display = 'flex';
+        }
+
+        // Function to move the "No" button and update message
+        function moveNoButton() {
+            const noButton = document.getElementById('no-button');
+            const responseMessage = document.getElementById('response-message');
+            const container = document.getElementById('container');
+            const containerRect = container.getBoundingClientRect();
+
+            // Increment click counter
+            noButtonClicks++;
+
+            // Check if "No" button should disappear
+            if (noButtonClicks >= 5) {
+                noButton.style.display = 'none';
+                responseMessage.style.display = 'block';
+                responseMessage.innerHTML = "Mampus ku ilangin, wlee 😝";
+                responseMessage.style.color = '#e91e63';
+                return;
+            }
+
+            // Calculate max positions to keep button within container
+            const maxX = containerRect.width - noButton.offsetWidth - 10;
+            const maxY = containerRect.height - noButton.offsetHeight - 10;
+
+            // Generate random positions
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            // Apply new position
+            noButton.style.position = 'absolute';
+            noButton.style.left = randomX + 'px';
+            noButton.style.top = randomY + 'px';
+
+            // Show playful message
+            responseMessage.style.display = 'block';
+            responseMessage.innerHTML = noMessages[noButtonClicks - 1];
+            responseMessage.style.color = '#e91e63';
+        }
+
+        // Function to show response based on button clicked
+        function showResponse(choice) {
+            const responseMessage = document.getElementById('response-message');
+            document.getElementById('response-buttons').style.display = 'none';
+            responseMessage.style.display = 'block';
+            if (choice === 'yes') {
+                responseMessage.innerHTML = "Yeyyy, jadi udah resmi nihh😆 tytyty!!!";
+                responseMessage.style.color = '#4caf50';
+            } else {
+                responseMessage.innerHTML = "Nggak papa, aku seneng bisa bilang jujur. Tetep temenan asik ya! 😊";
+                responseMessage.style.color = '#f44336';
+            }
+        }
+    </script>
+</body>
+</html>
